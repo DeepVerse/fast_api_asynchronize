@@ -1,11 +1,11 @@
 ### Fast API asynchronize [experiment]
 
 @DeepVerse  
-这个项目研究了Fast API的多进程和异步协程的实际效果。
+This project studied the effects regarding multi-worker and asynchronous IO in FastAPI.
 
-## 运行
-运行两个terminal
+## Run
+Run two terminals
 ```shell
-python server.py  # 运行服务器
-python client.py  # 运行客户端, 调用接口
+python server.py  # run server
+python client.py  # run client, and the server APIs will be called
 ```
