@@ -16,6 +16,7 @@ async def fetchSite():
     print("Content is done")
 
 def timeit(func: Coroutine):
+    # decorator
     async def wrapper(*args, **kwargs):
         start = time.time()
         print("Timing started")
@@ -49,11 +50,12 @@ async def main():
     # await test_async_sleep(concur_num)
     print("-------------------")
     # await test_sync_to_async_sleep(concur_num=concur_num)
-    print(f"任务: fetch examples.com 5次. 并发执行{concur_num}次.")
-    print("普通同步fetch, worker=4")
+    print(f"Task: fetch examples.com 5 times. {concur_num} tasks will be run concurrently.")
+    print("Sync (basic) request, worker=4")
     await test_concurrent(concur_num, "http://localhost:8005/bad_op_fetch")
     print("-------------------")
-    print("普通同步fetch, 但是被异步化, 加入uvicorn事件循环")
+    print("sync request, but hass been asynchronized to join the uvicorn event loop")
+    # How it works: uvicorn event loop listens to fd via `selector`
     await test_concurrent(concur_num, "http://localhost:8005/async_bad_op")
 
 
