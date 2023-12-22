@@ -20,30 +20,29 @@ async def async_sleep_test():
 
 def bad_op_sleep():
     """
-        模拟了一个耗时的IO操作
-        底层不支持异步IO, 会阻塞整个进程
+        emulates an IO procedure
+        which doesn't support native async/await, will block current thread
     """
     time.sleep(3)
     return "ok"
 
 def bad_op_fetch(url):
     """
-        耗时的IO操作
+        time-consuming IO op
     """
     def sync_fetch(url):
         try:
-            # 发送 HTTP 请求
+            # send HTTP request
             response = requests.get(url)
 
-            # 检查请求是否成功 (状态码为 200)
+            # check if success (status 200)
             if response.status_code == 200:
-                # 返回网页内容
                 return response.text
             else:
-                print(f"请求失败，状态码: {response.status_code}")
+                print(f"Request failed，status code: {response.status_code}")
                 return None
         except Exception as e:
-            print(f"发生异常: {e}")
+            print(f"Exception: {e}")
             return None
 
     # fetch example.com 10 times and concat the first & last char of every fetch
@@ -55,11 +54,11 @@ def bad_op_fetch(url):
     return f"First chat: {show_me_result[0]}"
 
 ################################
-# 将同步任务转换为异步任务的代码
+# convert sync task to async
 ################################
 
 async def make_sync_async(sync_f, *args, **kwargs):
-    loop = asyncio.get_running_loop()  # 将函数和参数合并成一个无参数的闭包
+    loop = asyncio.get_running_loop()  # merge params and func into a nonparam func closure 
     f: Callable = lambda: sync_f(*args, **kwargs)
     return await loop.run_in_executor(None, f)
 
