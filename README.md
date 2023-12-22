@@ -1,7 +1,7 @@
 ### Fast API asynchronize [experiment]
 
 @DeepVerse  
-This project studied concepts regarding multi-worker and asynchronous IO in FastAPI.
+This project studied concepts regarding multi-workers and asynchronous IO in FastAPI.
 
 ## Run
 Run two terminals
