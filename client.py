@@ -46,15 +46,33 @@ async def test_concurrent(concur_num, url):
 async def main():
     concur_num = 16
     # await test_sync_sleep(concur_num)
+    print(f"TASK: sleep for 3 secs and return. {concur_num} tasks will be run concurrently.")
+
+    print("Sync (basic) request, worker=4")
+    await test_concurrent(concur_num, "http://localhost:8005/sync_sleep")
     print("-------------------")
-    # await test_async_sleep(concur_num)
+
+    print("sync requests, but they have been asynchronized to join the uvicorn event loop")
+    await test_concurrent(concur_num, "http://localhost:8005/async_sleep")
     print("-------------------")
-    # await test_sync_to_async_sleep(concur_num=concur_num)
-    print(f"Task: fetch examples.com 5 times. {concur_num} tasks will be run concurrently.")
+
+    # print(f"TASK: calculate fib(100000) and return result. {concur_num} tasks will be run concurrently.")
+
+    # print("Sync (basic) request, worker=4")
+    # await test_concurrent(concur_num, "http://localhost:8005/sync_fib")
+    # print("-------------------")
+
+    # print("sync requests, but they have been asynchronized to join the uvicorn event loop")
+    # await test_concurrent(concur_num, "http://localhost:8005/async_fib")
+    # print("-------------------")
+
+    print(f"TASK: fetch examples.com 10 times. {concur_num} tasks will be run concurrently.")
+
     print("Sync (basic) request, worker=4")
     await test_concurrent(concur_num, "http://localhost:8005/bad_op_fetch")
     print("-------------------")
-    print("sync request, but hass been asynchronized to join the uvicorn event loop")
+
+    print("sync requests, but they have been asynchronized to join the uvicorn event loop")
     # How it works: uvicorn event loop listens to fd via `selector`
     await test_concurrent(concur_num, "http://localhost:8005/async_bad_op")
 
