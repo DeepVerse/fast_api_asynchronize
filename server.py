@@ -18,7 +18,7 @@ app = fastapi.FastAPI()
 #     await asyncio.sleep(3)
 #     return "ok"
 
-def bad_op_sleep():
+def bad_op_sleep() -> None:
     """
         emulates an IO procedure
         which doesn't support native async/await, will block current thread
@@ -26,18 +26,18 @@ def bad_op_sleep():
     time.sleep(3)
     return "ok"
 
-def bad_op_fib():
+def bad_op_fib() -> int:
     """
         emulates an CPU-bound procedure
         which doesn't support native async/await, will occupy current thread
     """
-    def fib(n):
+    def fib(n) -> int:
         if n <= 2:
             return 1
         return fib(n - 1) + fib(n - 2)
     return fib(100000)
 
-def bad_op_fetch(url):
+def bad_op_fetch(url) -> str:
     """
         time-consuming IO op
     """
@@ -85,11 +85,13 @@ async def async_fib():
 
 @app.get("/sync_sleep")
 def sync_sleep():
-    return bad_op_sleep()
+    bad_op_sleep()
+    return "ok"
 
 @app.get("/async_sleep")
 async def async_sleep():
-    return await make_sync_async(bad_op_sleep)
+    await make_sync_async(bad_op_sleep)
+    return "ok"
 
 @app.get("/bad_op_fetch")
 async def bad_op_fecth():
