@@ -31,7 +31,7 @@ class Task:
     def step(self):
         try:
             f = next(self.gen)
-            f.callbacks.append(self.step)
+            f.add_done_callback(self.step)
         except StopIteration:
             self.eventLoop.n_task -= 1
 
